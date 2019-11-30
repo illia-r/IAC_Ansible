@@ -1,0 +1,57 @@
+---
+- name: Test Connection
+  hosts: PuppetAgents
+  become: yes
+  vars:
+          puppet_agent_rpm: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+          dest_puppet_conf: /etc/puppetlabs/puppet/puppet.conf
+          dest_hosts: /etc/hosts 
+
+  tasks:
+          - name: Download repository
+            yum:
+                    name: '{{ puppet_agent_rpm }}'
+                    state: present
+
+          - name: Add in system
+            yum:
+                    name: puppetlabs-release-pc1-el-7.noarch.rpm
+                    state: present
+
+          - name: Update System
+            yum:
+                    update_cache: true
+                
+          - name: Install puppet-agent
+            yum: 
+                    name: puppet-agent
+                    state: present
+
+          - lineinfile:
+                    dest: '{{ dest_puppet_conf }}'
+                    regexp: '\[agent\]'
+                    line: "[agent]"
+                    state: present
+               
+          - lineinfile:
+                    dest: '{{ dest_puppet_conf }}'
+                    regexp: '^server\s\=\subuntuserver'
+                    insertafter: '^\[agent\]'
+                    line: "server = ubuntuserver"
+                    state: present
+           
+          - lineinfile:
+                    dest: '{{ dest_hosts }}'
+                    regexp: '^192\.168\.0\.104'
+                    line: "192.168.0.104   ubuntuserver"
+                    state: present
+
+          - name: Start puppet-agent and enable it on the every boot
+            systemd:
+                    name: puppet
+                    enabled: yes
+                    state: started          
+                             
+                  
+
+
