@@ -1,0 +1,25 @@
+---
+
+- name: Install Package
+  hosts: all
+  become: yes
+
+- tasks:
+        - name: Install deb package(puppet-server)
+          apt:
+                  deb: https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
+
+         
+        - name: Add in system
+          apt:
+                  deb: puppetlabs-release-pc1-trusty.deb
+
+        - name: Update
+          apt:
+                  update_cache: yes
+
+        - name: Install puppet-server
+          apt:
+                  name: puppet-server
+                  state: latest
+

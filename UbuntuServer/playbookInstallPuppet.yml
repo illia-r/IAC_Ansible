@@ -1,0 +1,42 @@
+---
+
+- name: Test Connection
+  hosts: all
+  become: yes
+
+
+
+  vars:
+          destin_file: /etc/puppetlabs/puppet/puppet.conf  #Puppet conf file
+          
+
+  tasks:
+          - name: Install repository
+            apt: 
+                   deb: https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
+                   state: present
+          
+          - name: Add repository
+            apt: 
+                   deb: puppetlabs-release-pc1-trusty.deb
+                   state: present
+
+          - name: Update
+            apt: 
+                   update_cache: yes
+
+          - name: Install PuppetServer
+            apt:
+                   name: puppetserver
+                   state: latest
+          
+          - name: Editing some string(servername,cert) in puppet.conf file
+            lineinfile:
+                   dest: /etc/puppetlabs/puppet/puppet.conf 
+                   line: "[main]\ncertname= = ubuntuserver\nserver = ubuntuserver"
+                   insertafter: "EOF"
+                   state: present
+                            
+                       
+
+

@@ -1,0 +1,14 @@
+---
+- name: Test Connection
+  hosts: PuppetServer
+  become: yes
+
+  tasks:
+          - lineinfile:
+                  dest: /etc/puppetlabs/puppet/puppet.conf
+                  line: "[main]\ncertname = ubuntuserver\nserver = ubuntuserver"
+                  insertafter: "EOF"
+
+          - name: Start PuppetServer and enable it on the every boot
+            service: name=puppetserver state=started enabled=yes
+            
