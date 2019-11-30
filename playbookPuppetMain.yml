@@ -29,8 +29,6 @@
                   dest: '{{ dest_puppet_conf }}'
                   regexp: '\[main\]'
                   line: "[main]"
-                  # regexp: "certname ubuntuserver"
-                  # line: "certname = ubuntuserver"
                   state: present
           - lineinfile:
                   dest: '{{ dest_puppet_conf }}'
