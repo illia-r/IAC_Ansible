@@ -1,0 +1,29 @@
+---
+
+- name: Add group(MAIN) in Puppet Config file
+  hosts: PuppetServer
+  become: yes
+  vars:
+          dest_puppet_conf: /etc/puppetlabs/puppet/puppet.conf
+  tasks:
+
+          - lineinfile:
+                  dest: '{{ dest_puppet_conf }}'
+                  regexp: '\[main\]'
+                  line: "[main]"
+                  # regexp: "certname ubuntuserver"
+                  # line: "certname = ubuntuserver"
+                  state: present
+          - lineinfile:
+                  dest: '{{ dest_puppet_conf }}'
+                  regexp: '^certname\s\=\subuntuserver'
+                  insertafter: '^\[main\]'
+                  line: "certname = ubuntuserver"
+                  state: present
+          - lineinfile:
+                  dest: '{{ dest_puppet_conf }}'
+                  regexp: '^server\s\=\subuntuserver'
+                  insertafter: '^certname\s\=\subuntuserver'
+                  line: "server = ubuntuserver"
+                  state: present        
+                  
