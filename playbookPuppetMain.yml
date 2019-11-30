@@ -24,11 +24,6 @@
                   name: puppetserver
                   state: latest  
           
-          - name: Start PuppetServer and enable it on the every boot
-            service:
-                  name: puppetserver
-                  state: started
-                  enabled: yes        
 
           - lineinfile:
                   dest: '{{ dest_puppet_conf }}'
@@ -48,5 +43,11 @@
                   regexp: '^server\s\=\subuntuserver'
                   insertafter: '^certname\s\=\subuntuserver'
                   line: "server = ubuntuserver"
-                  state: present        
-                  
+                  state: present
+
+          - name: Start PuppetServer and enable it on the every boot
+            service:
+                  name: puppetserver
+                  state: started
+                  enabled: yes
+
