@@ -1,5 +1,5 @@
 ---
-- name: Test Connection
+- name: Deployment PuppetAgents
   hosts: all
   become: yes
   vars:
