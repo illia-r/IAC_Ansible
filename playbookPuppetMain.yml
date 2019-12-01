@@ -1,6 +1,6 @@
 ---
 
-- name: Deployment PuppetServer and PuppetAgents
+- name: Deployment PuppetServer 
   hosts: all
   become: yes
   vars:
