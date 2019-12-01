@@ -1,12 +1,18 @@
 ---
 
 - name: Add group(MAIN) in Puppet Config file
-  hosts: PuppetServer
+  hosts: all
   become: yes
   vars:
           puppet_server_deb: https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
           dest_puppet_conf: /etc/puppetlabs/puppet/puppet.conf
   tasks:
+
+       - block:
+
+          - name: Check Linux OS
+            debug: var=ansible_os_family
+
           - name: Download deb package(puppet-server)
             apt:
                   deb: '{{ puppet_server_deb }}'
@@ -50,3 +56,4 @@
                   state: started
                   enabled: yes
 
+         when: ansible_os_family == "Debian"
