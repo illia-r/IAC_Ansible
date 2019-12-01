@@ -5,7 +5,10 @@
   vars:
           puppet_agent_rpm: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
           dest_puppet_conf: /etc/puppetlabs/puppet/puppet.conf
-          dest_hosts: /etc/hosts 
+          dest_hosts: /etc/hosts
+          dest_puppet_manifest: /etc/puppetlabs/code/environments/production/manifests/manifest.pp
+          manifest_epel_release: "package { 'epel-release':\nensure => installed,\n}"
+          manifest_ansible: "package { 'ansible':\nensure => installed,\n}"
 
   tasks:
           - block:
@@ -27,6 +30,7 @@
               - name: Update System
                 yum:
                         update_cache: true
+                        state: latest
                 
               - name: Install puppet-agent
                 yum: 
@@ -64,6 +68,14 @@
 
               - name: Cert
                 shell: /opt/puppetlabs/bin/puppet cert list 
+                
+              - name: Manifest for download Ansible
+                template:
+                         src: /home/qwerty/manifest.j2
+                         dest: '{{ dest_puppet_manifest }}'
+                         owner: root
+                         group: root
+                         mode: '0600'
 
             when: ansible_os_family == "Debian"
 

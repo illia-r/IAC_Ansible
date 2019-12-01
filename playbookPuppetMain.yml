@@ -18,6 +18,7 @@
           - name: Update
             apt:
                   update_cache: yes
+                  state: latest
 
           - name: Install puppet-server
             apt:  
