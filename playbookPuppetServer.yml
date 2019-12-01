@@ -1,0 +1,59 @@
+---
+
+- name: Deployment PuppetServer
+  hosts: all
+  become: yes
+  vars:
+          puppet_server_deb: https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
+          dest_puppet_conf: /etc/puppetlabs/puppet/puppet.conf
+  tasks:
+
+       - block:
+
+          - name: Check Linux OS
+            debug: var=ansible_os_family
+
+          - name: Download deb package(puppet-server)
+            apt:
+                  deb: '{{ puppet_server_deb }}'
+
+          - name: Add in system
+            apt:
+                  deb: puppetlabs-release-pc1-trusty.deb
+
+          - name: Update
+            apt:
+                  update_cache: yes
+                  state: latest
+
+          - name: Install puppet-server
+            apt:  
+                  name: puppetserver
+                  state: latest  
+          
+
+          - lineinfile:
+                  dest: '{{ dest_puppet_conf }}'
+                  regexp: '\[main\]'
+                  line: "[main]"
+                  state: present
+          - lineinfile:
+                  dest: '{{ dest_puppet_conf }}'
+                  regexp: '^certname\s\=\subuntuserver'
+                  insertafter: '^\[main\]'
+                  line: "certname = ubuntuserver"
+                  state: present
+          - lineinfile:
+                  dest: '{{ dest_puppet_conf }}'
+                  regexp: '^server\s\=\subuntuserver'
+                  insertafter: '^certname\s\=\subuntuserver'
+                  line: "server = ubuntuserver"
+                  state: present
+
+          - name: Start PuppetServer and enable it on the every boot
+            service:
+                  name: puppetserver
+                  state: started
+                  enabled: yes
+
+         when: ansible_os_family == "Debian"

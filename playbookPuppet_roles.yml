@@ -1,6 +1,6 @@
 ---
 
-- name: Add group(MAIN) in Puppet Config file
+- name: Deployment PuppetServer and PuppetAgents
   hosts: all
   become: yes
   
