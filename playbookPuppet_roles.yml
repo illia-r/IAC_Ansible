@@ -1,0 +1,9 @@
+---
+
+- name: Add group(MAIN) in Puppet Config file
+  hosts: all
+  become: yes
+  
+  roles:
+          - puppet_server
+          - puppet_agents  

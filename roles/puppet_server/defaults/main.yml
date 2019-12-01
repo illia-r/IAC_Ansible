@@ -1,0 +1,4 @@
+---
+# defaults file for puppet_server
+puppet_server_deb: https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
+dest_puppet_conf: /etc/puppetlabs/puppet/puppet.conf

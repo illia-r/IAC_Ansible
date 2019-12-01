@@ -1,0 +1,8 @@
+---
+# defaults file for puppet_agents
+puppet_agent_rpm: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+dest_puppet_conf: /etc/puppetlabs/puppet/puppet.conf
+dest_hosts: /etc/hosts
+dest_puppet_manifest: /etc/puppetlabs/code/environments/production/manifests/manifest.pp
+manifest_epel_release: "package { 'epel-release':\nensure => installed,\n}"
+manifest_ansible: "package { 'ansible':\nensure => installed,\n}"

@@ -1,0 +1,69 @@
+---
+# tasks file for puppet_agents
+         - block:
+                  
+              - name: Check Linux OS
+                debug: var=ansible_os_family
+
+
+              - name: Download repository
+                yum:
+                        name: '{{ puppet_agent_rpm }}'
+                        state: present
+
+              - name: Add in system
+                yum:
+                        name: puppetlabs-release-pc1-el-7.noarch.rpm
+                        state: present
+
+              - name: Update System
+                yum:
+                        update_cache: true
+                        state: latest
+                
+              - name: Install puppet-agent
+                yum: 
+                         name: puppet-agent
+                         state: present
+
+              - lineinfile:
+                         dest: '{{ dest_puppet_conf }}'
+                         regexp: '\[agent\]'
+                         line: "[agent]"
+                         state: present
+               
+              - lineinfile:
+                         dest: '{{ dest_puppet_conf }}'
+                         regexp: '^server\s\=\subuntuserver'
+                         insertafter: '^\[agent\]'
+                         line: "server = ubuntuserver"
+                         state: present
+           
+              - lineinfile:
+                         dest: '{{ dest_hosts }}'
+                         regexp: '^192\.168\.0\.104'
+                         line: "192.168.0.104   ubuntuserver"
+                         state: present
+
+              - name: Start puppet-agent and enable it on the every boot
+                systemd:
+                         name: puppet
+                         enabled: yes
+                         state: started          
+                              
+           when: ansible_os_family == "RedHat"
+
+         - block:    # Block for Debian
+
+              - name: Cert
+                shell: /opt/puppetlabs/bin/puppet cert list 
+                
+              - name: Manifest for download Ansible
+                template:
+                         src: manifest.j2
+                         dest: '{{ dest_puppet_manifest }}'
+                         owner: root
+                         group: root
+                         mode: '0600'
+
+           when: ansible_os_family == "Debian"

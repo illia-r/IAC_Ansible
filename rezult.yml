@@ -1,0 +1,119 @@
+
+PLAY [Add group(MAIN) in Puppet Config file] **********************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************
+ok: [ubuntuserver]
+ok: [centoc]
+ok: [centoc2]
+
+TASK [puppet_server : Check Linux OS] *****************************************************************************
+skipping: [centoc]
+skipping: [centoc2]
+ok: [ubuntuserver] => {
+    "ansible_os_family": "Debian"
+}
+
+TASK [puppet_server : Download deb package(puppet-server)] ********************************************************
+skipping: [centoc]
+skipping: [centoc2]
+ok: [ubuntuserver]
+
+TASK [puppet_server : Add in system] ******************************************************************************
+skipping: [centoc]
+skipping: [centoc2]
+ok: [ubuntuserver]
+
+TASK [puppet_server : Update] *************************************************************************************
+skipping: [centoc]
+skipping: [centoc2]
+changed: [ubuntuserver]
+
+TASK [puppet_server : Install puppet-server] **********************************************************************
+skipping: [centoc]
+skipping: [centoc2]
+ok: [ubuntuserver]
+
+TASK [puppet_server : lineinfile] *********************************************************************************
+skipping: [centoc]
+skipping: [centoc2]
+ok: [ubuntuserver]
+
+TASK [puppet_server : lineinfile] *********************************************************************************
+skipping: [centoc]
+skipping: [centoc2]
+ok: [ubuntuserver]
+
+TASK [puppet_server : lineinfile] *********************************************************************************
+skipping: [centoc]
+skipping: [centoc2]
+ok: [ubuntuserver]
+
+TASK [puppet_server : Start PuppetServer and enable it on the every boot] *****************************************
+skipping: [centoc]
+skipping: [centoc2]
+ok: [ubuntuserver]
+
+TASK [puppet_agents : Check Linux OS] *****************************************************************************
+ok: [centoc] => {
+    "ansible_os_family": "RedHat"
+}
+ok: [centoc2] => {
+    "ansible_os_family": "RedHat"
+}
+skipping: [ubuntuserver]
+
+TASK [puppet_agents : Download repository] ************************************************************************
+skipping: [ubuntuserver]
+ok: [centoc]
+ok: [centoc2]
+
+TASK [puppet_agents : Add in system] ******************************************************************************
+skipping: [ubuntuserver]
+ok: [centoc]
+ok: [centoc2]
+
+TASK [puppet_agents : Update System] ******************************************************************************
+skipping: [ubuntuserver]
+ok: [centoc]
+ok: [centoc2]
+
+TASK [puppet_agents : Install puppet-agent] ***********************************************************************
+skipping: [ubuntuserver]
+ok: [centoc]
+ok: [centoc2]
+
+TASK [puppet_agents : lineinfile] *********************************************************************************
+skipping: [ubuntuserver]
+ok: [centoc]
+ok: [centoc2]
+
+TASK [puppet_agents : lineinfile] *********************************************************************************
+skipping: [ubuntuserver]
+ok: [centoc]
+ok: [centoc2]
+
+TASK [puppet_agents : lineinfile] *********************************************************************************
+skipping: [ubuntuserver]
+ok: [centoc]
+ok: [centoc2]
+
+TASK [puppet_agents : Start puppet-agent and enable it on the every boot] *****************************************
+skipping: [ubuntuserver]
+ok: [centoc]
+ok: [centoc2]
+
+TASK [puppet_agents : Cert] ***************************************************************************************
+skipping: [centoc]
+skipping: [centoc2]
+changed: [ubuntuserver]
+
+TASK [puppet_agents : Manifest for download Ansible] **************************************************************
+skipping: [centoc]
+skipping: [centoc2]
+ok: [ubuntuserver]
+
+PLAY RECAP ********************************************************************************************************
+centoc                     : ok=10   changed=0    unreachable=0    failed=0    skipped=11   rescued=0    ignored=0   
+centoc2                    : ok=10   changed=0    unreachable=0    failed=0    skipped=11   rescued=0    ignored=0   
+ubuntuserver               : ok=12   changed=2    unreachable=0    failed=0    skipped=9    rescued=0    ignored=0   
+
